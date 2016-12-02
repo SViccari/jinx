@@ -32,5 +32,18 @@ defmodule JinxTest do
 
       assert json_payload == expected
     end
+
+    test "it replaces_snake case with kebab-case for json type" do
+      json_payload = json_for(:some_super_cool_model, %{})
+
+      assert Map.get(json_payload["data"], "type") == "some-super-cool-model"
+    end
+
+    test "it removes __meta__ and __struct__ attrs" do
+      attrs = %{:foo => "bar", :__meta__ => "stuff", :__struct__ => "moar stuff"}
+      data =  json_for(:foo, attrs) |> Map.get("data")
+
+      assert Map.get(data, "attributes") == %{:foo => "bar"}
+    end
   end
 end
