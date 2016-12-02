@@ -1,0 +1,2 @@
+defmodule Jinx do
+end
