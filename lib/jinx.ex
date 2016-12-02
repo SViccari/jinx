@@ -29,22 +29,16 @@ defmodule Jinx do
 
   defp normalize_json_attributes(attributes) do
     attributes = attributes
-                 |> Map.delete(:__meta__)
-                 |> Map.delete(:__struct__)
+      |> Map.delete(:__meta__)
+      |> Map.delete(:__struct__)
 
-                 Enum.reduce attributes, %{}, fn({key, value}, result) ->
-                 case normalize_json_attribute(key, value) do
-                   {key, value} -> Map.put(result, key, value)
-                   nil -> result
-                 end
-                 end
+    Enum.reduce attributes, %{}, fn({key, value}, result) ->
+      case normalize_json_attribute(key, value) do
+        {key, value} -> Map.put(result, key, value)
+        nil -> result
+      end
+    end
   end
-
-  defp normalize_json_attribute(key, %Ecto.DateTime{} = value) do
-    {key, Ecto.DateTime.to_iso8601(value)}
-  end
-
-  defp normalize_json_attribute(_key, %Ecto.Association.NotLoaded{} = _value), do: nil
 
   defp normalize_json_attribute(key, value), do: {key, value}
 end
