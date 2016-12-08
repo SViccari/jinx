@@ -1,8 +1,8 @@
 defmodule Jinx do
 
   @moduledoc """
-  Jinx is a collection of flexible helpers to help
-  with accessing information from a [JSON API](http://jsonapi.org).
+  Defines flexible test helpers for creating and testing
+  JSON data [JSON APIs] (http://jsonapi.org)
   """
 
   def json_for(type, attributes) do

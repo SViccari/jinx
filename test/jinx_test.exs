@@ -5,10 +5,13 @@ defmodule JinxTest do
   describe "json_for" do
     test "it properly adds fields to attributes" do
       attrs = %{foo: "bar", food: "candy bar"}
-      json_payload = json_for(:foo, attrs)
+      json_payload = json_for(:person, attrs)
 
       expected = %{
-        "data" => %{"attributes" => attrs, "type" => "foo"},
+        "data" => %{
+          "attributes" => attrs,
+          "type" => "person"
+        },
         "format" => "json-api"
       }
 
@@ -17,7 +20,13 @@ defmodule JinxTest do
 
     test "it properly adds relationships to data" do
       attrs = %{name: "Scott", isTheBest: true}
-      relationships = %{"job" => %{"data" => %{type: "job", id: 1}}}
+      relationships = %{
+        "job" => %{
+          "data" => %{
+            type: "job", id: 1
+          }
+        }
+      }
 
       json_payload = json_for(:person, attrs, relationships)
 
@@ -34,9 +43,9 @@ defmodule JinxTest do
     end
 
     test "it replaces_snake case with kebab-case for json type" do
-      json_payload = json_for(:some_super_cool_model, %{})
+      data = json_for(:some_super_cool_model, %{}) |> Map.get("data")
 
-      assert Map.get(json_payload["data"], "type") == "some-super-cool-model"
+      assert Map.get(data, "type") == "some-super-cool-model"
     end
 
     test "it removes __meta__ and __struct__ attrs" do
