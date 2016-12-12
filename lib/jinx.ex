@@ -13,8 +13,8 @@ defmodule Jinx do
         "type" =>  Atom.to_string(type) |> String.replace("_", "-"),
         "attributes" => attributes,
       },
-    "format" => "json-api"
-  }
+      "format" => "json-api"
+    }
   end
 
   def json_for(type, attributes, %{} = relationships) do
